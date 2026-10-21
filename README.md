@@ -73,11 +73,29 @@ python main.py
 
 > A automação roda sob demanda (execução manual), não em agendamento automático.
 
+## 🧪 Testes automatizados
+
+Os testes usam **pytest** e ficam em `tests/test_main.py`. Eles não acessam a internet (a API é simulada com `monkeypatch`) e não tocam no `cotacoes.db` real: cada teste roda numa pasta temporária.
+
+```bash
+# Com o ambiente virtual ativado e as dependências instaladas
+python -m pytest -v
+```
+
+O que é coberto:
+- **Extract:** resposta válida, erro HTTP, falta de conexão e JSON sem as chaves esperadas.
+- **Load:** criação da tabela e gravação dos registros.
+- **Report:** banco vazio, um único registro e variação de alta, queda e estabilidade.
+- **Orquestrador:** só salva e gera relatório quando a extração dá certo.
+
 ## 📁 Estrutura do projeto
 
 ```text
 automacao_cotacao/
 ├── main.py             # Extract, Load, Report e orquestrador
+├── tests/
+│   └── test_main.py    # Testes automatizados (pytest)
+├── pytest.ini          # Configuração do pytest
 ├── requirements.txt    # Dependências do projeto
 ├── .gitignore
 └── README.md
